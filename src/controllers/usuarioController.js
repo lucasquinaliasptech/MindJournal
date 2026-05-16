@@ -21,9 +21,10 @@ function autenticar(req, res) {
                         console.log(resultadoAutenticar);
 
                         res.json ({
-                            id: resultadoAutenticar[0].id,
+                            id: resultadoAutenticar[0].id_usuario,
                             email: resultadoAutenticar[0].email,
-                            nomeFantasia: resultadoAutenticar[0].nome_fantasia,
+                            apelido: resultadoAutenticar[0].apelido,
+                            nome: resultadoAutenticar[0].nome
                         })
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
@@ -43,27 +44,22 @@ function autenticar(req, res) {
 }
 
 function cadastrar(req, res) {
-    // RECUPERAÇÃO CORRETA DOS VALORES
-    var razaoSocial = req.body.razaoSocialServer; // Estava nome
-    var nomeFantasia = req.body.nomeFantasiaServer; // Estava cnpjServer
-    var cnpj = req.body.cnpjServer; // Estava nomeServer
+    var nome = req.body.nomeServer;
     var email = req.body.emailServer;
-    var telefone = req.body.telefoneServer;
     var senha = req.body.senhaServer;
+    var apelido = req.body.apelidoServer;
 
     // Validações
-    if (razaoSocial == undefined) {
-        res.status(400).send("Sua razão social está indefinida!");
-    } else if (nomeFantasia == undefined) {
-        res.status(400).send("Seu nome fantasia está indefinido!");
-    } else if (cnpj == undefined) {
-        res.status(400).send("Seu CNPJ está indefinido!");
+    if (nome == undefined) {
+        res.status(400).send("Seu nome está indefinido!");
     } else if (email == undefined) {
-        res.status(400).send("Seu email está indefinido!");
+        res.status(400).send("Seu e-mail está indefinido!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está indefinida!");
+    } else if (apelido == undefined) {
+        res.status(400).send("Seu apelido está indefinido!");
     } else {
-        usuarioModel.cadastrar(razaoSocial, nomeFantasia, cnpj, email, telefone, senha)
+        usuarioModel.cadastrar(nome, email, senha, apelido)
             .then(
                 function (resultado) {
                     res.json(resultado);
