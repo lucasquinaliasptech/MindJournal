@@ -186,6 +186,14 @@ nav {
     display: flex;
 }
 
+#img-login {
+    width: 540px;
+    height: 410px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+}
+
 .form-cadastro-login {
     margin-left: 40px;
     width: 540px;

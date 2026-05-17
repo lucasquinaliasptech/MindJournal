@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cadastrar-se</title>
     <script src="./js/sessao.js"></script>
+    <script src="./js/tema.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/@hiseb/confetti@2.1.0/dist/confetti.min.js"></script>
     <link rel="stylesheet" href="./css/reset.css" />
     <link rel="stylesheet" href="./css/styles.css" />
@@ -16,7 +17,7 @@
     <img src="./assets/imgs/light-logo.png" alt="MindJournal Logo" id="header-logo">
     <div class="card header-buttons">
         <nav>
-            <a href="" class="inactive">
+            <a href="index.html" class="inactive">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
@@ -36,7 +37,7 @@
                 </svg>
 
             </a>
-            <a href="" class="inactive">
+            <a href="dashboard.html" class="inactive">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M21.21 15.89C20.5738 17.3945 19.5788 18.7202 18.3119 19.7513C17.045 20.7824 15.5448 21.4874 13.9424 21.8048C12.3401 22.1221 10.6844 22.0421 9.12015 21.5718C7.55587 21.1015 6.13062 20.2551 4.96902 19.1067C3.80741 17.9582 2.94481 16.5428 2.45663 14.984C1.96845 13.4251 1.86956 11.7705 2.1686 10.1646C2.46763 8.55878 3.15549 7.05063 4.17204 5.77203C5.18859 4.49343 6.50288 3.48332 8 2.83"
@@ -47,7 +48,7 @@
                 </svg>
 
             </a>
-            <a href="" class="active">
+            <a href="cadastro.html" class="active">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21"
@@ -118,15 +119,15 @@
                 </div>
                 <div class="input-div">
                     <p>E-mail</p>
-                    <input type="text" id="ipt_email" class="input">
+                    <input type="email" id="ipt_email" class="input">
                 </div>
                 <div class="input-div">
                     <p>Senha</p>
-                    <input type="text" id="ipt_senha" class="input">
+                    <input type="password" id="ipt_senha" class="input">
                 </div>
                 <div class="input-div">
                     <p>Confirme a senha</p>
-                    <input type="text" id="ipt_confirmar_senha" class="input">
+                    <input type="password" id="ipt_confirmar_senha" class="input">
                 </div>
                 <div class="button-div">
                     <button onclick="cadastrar()" class="button button-cadastro-login">Cadastrar-se</button>
@@ -203,37 +204,6 @@
 
     function sumirMensagem() {
         cardErro.style.display = "none";
-    }
-
-    function toggleTheme(button) {
-        const html = document.querySelector('html');
-        const logo = document.querySelector('#header-logo');
-        const sol = document.querySelector('#sun');
-        const lua = document.querySelector('#moon');
-
-        if (button == "dark") {
-            html.setAttribute('data-theme', 'dark');
-            sessionStorage.setItem('theme', 'dark');
-
-            logo.src = './assets/imgs/dark-logo.png';
-
-            sol.classList.remove('active');
-            lua.classList.add('active');
-
-            sol.classList.add('inactive');
-            lua.classList.remove('inactive');
-        } else {
-            html.setAttribute('data-theme', 'light');
-            sessionStorage.setItem('theme', 'light');
-
-            logo.src = './assets/imgs/light-logo.png';
-
-            sol.classList.add('active');
-            lua.classList.remove('active');
-
-            sol.classList.remove('inactive');
-            lua.classList.add('inactive');
-        }
     }
 
     window.onload = function () {
