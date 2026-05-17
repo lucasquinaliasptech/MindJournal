@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+
+[data-theme="light"] {
+    --background: #FFFFFF;
+    --foreground: #FFFFFF;
+    --accent: #D8923A;
+    --muted: #FEF2DA;
+
+    --yellow: #D8923A;
+
+    --input: #E4E4E4;
+    --border: #E4E4E4;
+
+    --text: #000000;
+    --light_text: #6C6C6C;
+
+    --shadow: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] {
+    --background: #191919;
+    --foreground: #252525;
+    --accent: #FEF2DA;
+    --muted: #D8923A;
+
+    --yellow: #D8923A;
+
+    --input: #333333;
+    --border: #333333;
+
+    --text: #FFFFFF;
+    --light_text: #9B9B9B;
+
+    --shadow: rgba(0, 0, 0, 0.05);
+}
+
+* {
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    transition: 0.2s;
+}
+
+body {
+    background-color: var(--background);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    color: var(--text);
+}
+
+.content {
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.footer p {
+    margin: 100px auto 50px auto;
+    color: var(--accent);
+    padding: 10px 20px;
+    background-color: var(--muted);
+    width: fit-content;
+    border-radius: 10px;
+}
+
+.card {
+    border-radius: 20px;
+    background-color: var(--foreground);
+    padding: 40px;
+    border: 2px solid var(--border);
+    width: fit-content;
+    margin: 0 auto;
+    box-shadow: 0 5px 10px 0 var(--shadow);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px;
+    align-items: center;
+}
+
+.header-buttons {
+    padding: 20px;
+    margin: 0;
+}
+
+.header-buttons a, .header-buttons button {
+    padding: 10px;
+}
+
+nav {
+    display: flex;
+    gap: 5px;
+}
+
+.header-buttons a, .header-buttons button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    width: 60px;
+    height: 60px;
+    color: var(--light_text);
+}
+
+.header-buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.header-buttons svg {
+    width: 40px;
+    height: 40px;
+}
+
+.active, .header-buttons .active {
+    background-color: var(--muted);
+    border-radius: 10px;
+}
+
+.active svg {
+    color: var(--accent);
+}
+
+.inactive {
+    border-radius: 10px;
+}
+
+.inactive:hover {
+    background-color: var(--input);
+}
+
+#header-logo {
+    width: 100px;
+}
+
+.page-title {
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-size: 64px;
+    margin: 50px 0;
+}
+
+.button-div {
+    text-align: center;
+}
+
+.button {
+    background-color: var(--muted);
+    color: var(--accent);
+    padding: 20px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: var(--accent);
+    color: var(--muted);
+}
+
+.input-div {
+    margin-bottom: 20px;
+}
+
+.input {
+    background-color: var(--input);
+    border: none;
+    border-radius: 10px;
+    height: 40px;
+    margin: 20px 0;
+    width: 100%;
+    padding: 10px;
+    color: var(--text);
+}
+
+.input:focus {
+    outline: 2px solid var(--yellow);
+}
+
+.card-cadastro-login {
+    display: flex;
+}
+
+.form-cadastro-login {
+    margin-left: 40px;
+    width: 540px;
+}
+
+.button-cadastro-login {
+    margin-bottom: 20px;
+}
+
+.link-cadastro-login {
+    color: var(--yellow);
+}
+
+.link-footer {
+    color: var(--accent);
+}
