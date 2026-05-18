@@ -210,3 +210,41 @@ nav {
 .link-footer {
     color: var(--accent);
 }
+
+.intro {
+    text-align: center;
+}
+
+.intro p {
+    font-size: 32px;
+}
+
+#intro-image {
+    margin: 50px 150px 50px 0;
+}
+
+.div-valores {
+    display: flex;
+    margin: 0 auto;
+    gap: 40px;
+    width: fit-content;
+}
+
+.card-valores {
+    width: 440px;
+    text-align: center;
+    padding: 20px;
+}
+
+.card-valores div {
+    display: flex;
+    width: 100%;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.card-valores h2 {
+    font-size: 32px;
+    margin: 0 0 0 17%;
+    font-weight: 700;
+}
