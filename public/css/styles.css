@@ -417,3 +417,65 @@ nav {
     background-color: var(--accent-red);
     color: var(--muted-red);
 }
+
+.meus-posts-header {
+    display: flex;
+    align-items: center;
+}
+
+.meus-posts-header button {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+    height: fit-content;
+    margin-left: auto;
+    font-size: 32px;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--muted);
+    color: var(--accent);
+    cursor: pointer;
+}
+
+.meus-posts-header button:hover {
+    background-color: var(--accent);
+    color: var(--muted);
+}
+
+.meus-posts-header button svg {
+    width: 40px;
+    height: 40px;
+}
+
+.post-details {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#post-details-svg-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: var(--input);
+}
+
+#post-details-svg-container svg {
+    width: 40px;
+    height: 40px;
+    color: var(--light_text);
+}
+
+.sem-posts {
+    display: flex;
+    align-items: center;
+    width: 1200px;
+    text-align: center;
+    margin: 100px 0 200px 0;
+    color: var(--light_text);
+}

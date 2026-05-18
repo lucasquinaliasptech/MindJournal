@@ -22,8 +22,6 @@ function mostrarTodos(req, res) {
                     });
 
                     res.json(postsFormatados);
-                } else if (resultado.length == 0) {
-                    res.status(403).send("Nenhum post cadastrado!");
                 }
             }
         ).catch(
@@ -33,7 +31,6 @@ function mostrarTodos(req, res) {
                 res.status(500).json(erro.sqlMessage);
             }
         );
-
 }
 
 function novoPost(req, res) {
@@ -66,7 +63,51 @@ function novoPost(req, res) {
     }
 }
 
+function meusPosts(req, res) {
+    var id_usuario = req.body.idUsuario;
+
+    if (id_usuario == undefined) {
+        res.status(400).send("O ID do usuário está indefinido!");
+    }
+
+    postModel.meusPosts(id_usuario)
+        .then(
+            function (resultado) {
+                console.log(`\nResultados encontrados: ${resultado.length}`);
+                console.log(`Resultados: ${JSON.stringify(resultado)}`);
+
+                if (resultado.length > 0) {
+                    console.log(resultado);
+
+                    var postsFormatados = resultado.map(item => {
+                        return {
+                            id: item.id_postagem,
+                            titulo: item.titulo,
+                            conteudo: item.conteudo,
+                            data: item.data,
+                            data_postagem: item.data_postagem,
+                            status_postagem: item.status_postagem,
+                            visibilidade: item.visibilidade,
+                            autor: item.autor
+                        };
+                    });
+
+                    res.json(postsFormatados);
+                } else {
+                    res.json(null);
+                }
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao recuperar todos os posts do usuário! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
 module.exports = {
     mostrarTodos,
-    novoPost
+    novoPost,
+    meusPosts
 }

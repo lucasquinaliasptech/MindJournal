@@ -9,6 +9,14 @@
     <script src="./js/sessao.js"></script>
     <script src="./js/tema.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/@hiseb/confetti@2.1.0/dist/confetti.min.js"></script>
+    <script>
+        (function () {
+            const temaSalvo = sessionStorage.getItem('theme');
+            if (temaSalvo === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="./css/reset.css" />
     <link rel="stylesheet" href="./css/styles.css" />
     <link rel="shortcut icon" href="./assets/imgs/icon.png" type="image/x-icon">
@@ -121,11 +129,6 @@
             </div>
         </div>
     </div>
-    <div class="alerta_erro">
-        <div class="card_erro" id="cardErro">
-            <span id="mensagem_erro"></span>
-        </div>
-    </div>
     <div class='footer'>
         <p>Made with &lt;3 by <a href="https://linktr.ee/lucasquinalia" class="link-footer">Lucas Quinália</a></p>
     </div>
@@ -170,7 +173,7 @@
                     sessionStorage.NOME_USUARIO = json.nome
 
                     setTimeout(function () {
-                        window.location = "novopost.html";
+                        window.location = "perfil.html";
                     }, 1000);
                 });
 

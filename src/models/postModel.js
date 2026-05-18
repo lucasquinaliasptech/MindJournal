@@ -15,7 +15,16 @@ function novoPost(titulo, conteudo, id_autor, visibilidade) {
     return database.executar(instrucaoSql);
 }
 
+function meusPosts(id_usuario) {
+    console.log("ACESSEI O POST MODEL \n \n function meusPosts():", id_usuario);
+    var instrucaoSql = `SELECT id_postagem, titulo, conteudo, DATE_FORMAT(data_criacao, "%e/%m/%Y") AS data, data_postagem, status_postagem, visibilidade, a.nome AS autor FROM postagem p JOIN usuario a ON a.id_usuario = p.id_autor WHERE id_autor = ${id_usuario} ORDER BY data_criacao DESC;`;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     mostrarTodos,
-    novoPost
+    novoPost,
+    meusPosts
 };

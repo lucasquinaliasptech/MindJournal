@@ -11,4 +11,8 @@ router.post("/novopost", function (req, res) {
     postController.novoPost(req, res);
 });
 
+router.post("/meusposts", function (req, res) {
+    postController.meusPosts(req, res);
+})
+
 module.exports = router;
