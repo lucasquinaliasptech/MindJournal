@@ -1,5 +1,4 @@
 var usuarioModel = require("../models/usuarioModel");
-// var aquarioModel = require("../models/aquarioModel");
 
 function autenticar(req, res) {
     var email = req.body.emailServer;
@@ -15,12 +14,12 @@ function autenticar(req, res) {
             .then(
                 function (resultadoAutenticar) {
                     console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
-                    console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`); // transforma JSON em String
+                    console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`);
 
                     if (resultadoAutenticar.length == 1) {
                         console.log(resultadoAutenticar);
 
-                        res.json ({
+                        res.json({
                             id: resultadoAutenticar[0].id_usuario,
                             email: resultadoAutenticar[0].email,
                             apelido: resultadoAutenticar[0].apelido,
@@ -40,7 +39,6 @@ function autenticar(req, res) {
                 }
             );
     }
-
 }
 
 function cadastrar(req, res) {
@@ -49,7 +47,6 @@ function cadastrar(req, res) {
     var senha = req.body.senhaServer;
     var apelido = req.body.apelidoServer;
 
-    // Validações
     if (nome == undefined) {
         res.status(400).send("Seu nome está indefinido!");
     } else if (email == undefined) {

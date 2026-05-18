@@ -118,7 +118,7 @@
                     <input type="password" id="ipt_senha" class="input">
                 </div>
                 <div class="button-div">
-                    <button onclick="cadastrar()" class="button button-cadastro-login">Login</button>
+                    <button onclick="entrar()" class="button button-cadastro-login">Login</button>
                     <p>Ainda não possui uma conta? <a href="cadastro.html" class="yellow">Cadastre-se!</a></p>
                 </div>
             </div>
@@ -207,6 +207,6 @@
         const theme = sessionStorage.getItem('theme');
         const html = document.querySelector('html');
 
-        toggleTheme(theme)
+        toggleTheme(theme);
     };
 </script>
