@@ -203,7 +203,7 @@ nav {
     margin-bottom: 20px;
 }
 
-.link-cadastro-login {
+.yellow {
     color: var(--yellow);
 }
 
@@ -247,4 +247,55 @@ nav {
     font-size: 32px;
     margin: 0 0 0 17%;
     font-weight: 700;
+}
+
+.card-post {
+    width: 1200px;
+    margin-bottom: 50px;
+}
+
+.card-post h2 {
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    font-size: 48px;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.post-header div {
+    text-align: end;
+    margin-left: auto;
+    color: var(--light_text);
+}
+
+.post-footer {
+    display: flex;
+    align-items: end;
+    margin-top: 20px;
+}
+
+.post-footer a {
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.post-footer div {
+    display: flex;
+    margin-left: auto;
+    gap: 20px;
+}
+
+.like-comment-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.like-comment-button svg {
+    width: 58px;
+    height: 58px;
 }
