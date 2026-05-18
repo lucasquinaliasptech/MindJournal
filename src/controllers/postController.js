@@ -16,7 +16,8 @@ function mostrarTodos(req, res) {
                             titulo: item.titulo,
                             conteudo: item.conteudo,
                             data: item.data_postagem,
-                            autor: item.id_autor
+                            autor: item.autor,
+                            apelido: item.apelido
                         };
                     });
 
