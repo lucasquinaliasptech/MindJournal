@@ -9,6 +9,12 @@
 
     --yellow: #D8923A;
 
+    --accent-red: #C14949;
+    --muted-red: #FFE0E0;
+
+    --accent-green: #41A159;
+    --muted-green: #DFF9DE;
+
     --input: #E4E4E4;
     --border: #E4E4E4;
 
@@ -26,6 +32,12 @@
 
     --yellow: #D8923A;
 
+    --accent-red: #FFE0E0;
+    --muted-red: #C14949;
+
+    --accent-green: #DFF9DE;
+    --muted-green: #41A159;
+
     --input: #333333;
     --border: #333333;
 
@@ -40,6 +52,12 @@
     font-weight: 500;
     font-size: 24px;
     transition: 0.2s;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+    display: none;
 }
 
 body {
@@ -86,7 +104,8 @@ header {
     margin: 0;
 }
 
-.header-buttons a, .header-buttons button {
+.header-buttons a,
+.header-buttons button {
     padding: 10px;
 }
 
@@ -95,7 +114,8 @@ nav {
     gap: 5px;
 }
 
-.header-buttons a, .header-buttons button {
+.header-buttons a,
+.header-buttons button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -116,7 +136,8 @@ nav {
     height: 40px;
 }
 
-.active, .header-buttons .active {
+.active,
+.header-buttons .active {
     background-color: var(--muted);
     border-radius: 10px;
 }
@@ -158,7 +179,7 @@ nav {
     cursor: pointer;
 }
 
-.button:hover {
+.button:hover, .novo-post-visibilidade:hover {
     background-color: var(--accent);
     color: var(--muted);
 }
@@ -178,7 +199,7 @@ nav {
     color: var(--text);
 }
 
-.input:focus {
+.input:focus, .novo-post-titulo:focus, .novo-post-conteudo:focus {
     outline: 2px solid var(--yellow);
 }
 
@@ -298,4 +319,101 @@ nav {
 .like-comment-button svg {
     width: 58px;
     height: 58px;
+}
+
+.novo-post {
+    width: 1200px;
+}
+
+.novo-post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.novo-post-header div {
+    display: flex;
+    gap: 20px;
+    width: 25%;
+    margin-left: 40px;
+    align-items: center;
+    justify-content: end;
+    color: var(--light_text);
+}
+
+.novo-post-visibilidade {
+    width: 80px;
+    height: 80px;
+    border: none;
+    background-color: var(--muted);
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 10px;
+    color: var(--accent);
+}
+
+.novo-post-visibilidade svg {
+    width: 50px;
+    height: 50px;
+}
+
+.novo-post-titulo {
+    color: var(--light_text);
+    font-size: 48px;
+    font-family: "Crimson Text", serif;
+    font-weight: 700;
+    padding: 20px 40px;
+    width: 90%;
+}
+
+.novo-post-conteudo {
+    width: 100%;
+    min-height: 400px;
+    resize: none;
+    field-sizing: content;
+    overflow: hidden;
+    margin-bottom: 40px;
+    color: var(--light_text);
+}
+
+.novo-post-buttons {
+    display: flex;
+    justify-content: end;
+    gap: 40px;
+}
+
+.novo-post-buttons button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 32px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.novo-post-buttons button svg {
+    width: 40px;
+    height: 40px;
+}
+
+.novo-post-salvar {
+    background-color: var(--muted-green);
+    color: var(--accent-green);
+}
+
+.novo-post-salvar:hover {
+    background-color: var(--accent-green);
+    color: var(--muted-green);
+}
+
+.novo-post-cancelar {
+    background-color: var(--muted-red);
+    color: var(--accent-red);
+}
+
+.novo-post-cancelar:hover {
+    background-color: var(--accent-red);
+    color: var(--muted-red);
 }
