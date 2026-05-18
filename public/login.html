@@ -175,11 +175,11 @@
                     console.log(JSON.stringify(json));
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.APELIDO_USUARIO = json.apelido;
-                    sessionStorage.ID_USUARIO = json.id_usuario;
+                    sessionStorage.ID_USUARIO = json.id;
                     sessionStorage.NOME_USUARIO = json.nome
 
                     setTimeout(function () {
-                        window.location = "dashboard.html";
+                        window.location = "novopost.html";
                     }, 1000);
                 });
 

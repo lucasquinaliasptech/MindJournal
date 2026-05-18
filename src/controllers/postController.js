@@ -37,10 +37,10 @@ function mostrarTodos(req, res) {
 }
 
 function novoPost(req, res) {
-    var titulo = req.body.nomeServer;
-    var conteudo = req.body.emailServer;
-    var id_autor = req.body.senhaServer;
-    var visibilidade = req.body.apelidoServer;
+    var titulo = req.body.tituloServer;
+    var conteudo = req.body.conteudoServer;
+    var id_autor = req.body.idAutorServer;
+    var visibilidade = req.body.visibilidadeServer;
 
     if (titulo == undefined) {
         res.status(400).send("O título do post está indefinido!");
