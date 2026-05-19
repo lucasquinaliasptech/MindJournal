@@ -15,4 +15,16 @@ router.post("/meusposts", function (req, res) {
     postController.meusPosts(req, res);
 })
 
+router.post("/meuspostspordia", function (req, res) {
+    postController.meusPostsPorDia(req, res);
+})
+
+router.post("/visibilidademeusposts", function (req, res) {
+    postController.visibilidadeMeusPosts(req, res);
+})
+
+router.post("/statusmeusposts", function (req, res) {
+    postController.statusMeusPosts(req, res);
+})
+
 module.exports = router;

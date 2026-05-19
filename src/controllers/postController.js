@@ -106,8 +106,98 @@ function meusPosts(req, res) {
         );
 }
 
+function meusPostsPorDia(req, res) {
+    var id_usuario = req.body.idUsuario;
+
+    if (id_usuario == undefined) {
+        res.status(400).send("O ID do usuário está indefinido!");
+    }
+
+    postModel.meusPostsPorDia(id_usuario)
+        .then(
+            function (resultado) {
+                console.log(`\nResultados encontrados: ${resultado.length}`);
+                console.log(`Resultados: ${JSON.stringify(resultado)}`);
+
+                if (resultado.length > 0) {
+                    console.log(resultado);
+                    res.json(resultado);
+                } else {
+                    res.json(null);
+                }
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao recuperar os posts do usuário por dia! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function visibilidadeMeusPosts(req, res) {
+    var id_usuario = req.body.idUsuario;
+
+    if (id_usuario == undefined) {
+        res.status(400).send("O ID do usuário está indefinido!");
+    }
+
+    postModel.visibilidadeMeusPosts(id_usuario)
+        .then(
+            function (resultado) {
+                console.log(`\nResultados encontrados: ${resultado.length}`);
+                console.log(`Resultados: ${JSON.stringify(resultado)}`);
+
+                if (resultado.length > 0) {
+                    console.log(resultado);
+                    res.json(resultado);
+                } else {
+                    res.json(null);
+                }
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao recuperar a visibilidade dos posts do usuário! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function statusMeusPosts(req, res) {
+    var id_usuario = req.body.idUsuario;
+
+    if (id_usuario == undefined) {
+        res.status(400).send("O ID do usuário está indefinido!");
+    }
+
+    postModel.statusMeusPosts(id_usuario)
+        .then(
+            function (resultado) {
+                console.log(`\nResultados encontrados: ${resultado.length}`);
+                console.log(`Resultados: ${JSON.stringify(resultado)}`);
+
+                if (resultado.length > 0) {
+                    console.log(resultado);
+                    res.json(resultado);
+                } else {
+                    res.json(null);
+                }
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao recuperar o status dos posts do usuário! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
 module.exports = {
     mostrarTodos,
     novoPost,
-    meusPosts
+    meusPosts,
+    meusPostsPorDia,
+    visibilidadeMeusPosts,
+    statusMeusPosts
 }

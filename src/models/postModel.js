@@ -23,8 +23,35 @@ function meusPosts(id_usuario) {
     return database.executar(instrucaoSql);
 }
 
+function meusPostsPorDia(id_usuario) {
+    console.log("ACESSEI O POST MODEL \n \n function meusPosts():", id_usuario);
+    var instrucaoSql = `SELECT DATE_FORMAT(data_postagem, "%e/%m") AS data, COUNT(*) AS contagem FROM postagem WHERE DATE_FORMAT(data_postagem, "%e/%m") BETWEEN DATE_FORMAT(CURRENT_DATE(), "%e/%m") - 7 AND DATE_FORMAT(CURRENT_DATE(), "%e/%m") AND id_autor = ${id_usuario} GROUP BY DATE_FORMAT(data_postagem, "%e/%m") ORDER BY DATE_FORMAT(data_postagem, "%e/%m");`;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function visibilidadeMeusPosts(id_usuario) {
+    console.log("ACESSEI O POST MODEL \n \n function meusPosts():", id_usuario);
+    var instrucaoSql = `SELECT visibilidade AS cod, COUNT(*) AS contagem, CASE WHEN visibilidade = 1 THEN "Público" ELSE "Privado" END AS visibilidade FROM postagem WHERE id_autor = ${id_usuario} GROUP BY visibilidade;`;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function statusMeusPosts(id_usuario) {
+    console.log("ACESSEI O POST MODEL \n \n function meusPosts():", id_usuario);
+    var instrucaoSql = `SELECT status_postagem AS cod, COUNT(*) AS contagem, CASE WHEN status_postagem = 1 THEN "Postado" ELSE "Rascunho" END AS status_postagem FROM postagem WHERE id_autor = ${id_usuario} GROUP BY status_postagem;`;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     mostrarTodos,
     novoPost,
-    meusPosts
+    meusPosts,
+    meusPostsPorDia,
+    visibilidadeMeusPosts,
+    statusMeusPosts
 };
