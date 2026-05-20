@@ -5,10 +5,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MindJournal</title>
+    <title>Dashboard</title>
     <script src="./js/sessao.js"></script>
-    <script src="./js/tema.js"></script> 
+    <script src="./js/tema.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@hiseb/confetti@2.1.0/dist/confetti.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
     <script>
         (function () {
             const temaSalvo = sessionStorage.getItem('theme');
@@ -44,7 +46,7 @@
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </a>
-            <a href="dashboard.html" class="active">
+            <a href="dashboard.html" class="active" id="icone-dashboard">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M21.21 15.89C20.5738 17.3945 19.5788 18.7202 18.3119 19.7513C17.045 20.7824 15.5448 21.4874 13.9424 21.8048C12.3401 22.1221 10.6844 22.0421 9.12015 21.5718C7.55587 21.1015 6.13062 20.2551 4.96902 19.1067C3.80741 17.9582 2.94481 16.5428 2.45663 14.984C1.96845 13.4251 1.86956 11.7705 2.1686 10.1646C2.46763 8.55878 3.15549 7.05063 4.17204 5.77203C5.18859 4.49343 6.50288 3.48332 8 2.83"
@@ -106,18 +108,210 @@
         </button>
     </div>
 </header>
+
 <body>
-    <div class="intro">
+    <div class="content">
         <h1 class="page-title">Dashboard</h1>
+        <div class="dashboard">
+            <div class="card card-posts-por-dia">
+                <p>Posts por dia</p>
+                <canvas id="grafico-posts-por-dia"></canvas>
+            </div>
+            <div class="cards-graficos-pizza">
+                <div class="card">
+                    <p>Visibilidade das postagens</p>
+                    <canvas id="grafico-visibilidade-posts"></canvas>
+                </div>
+                <div class="card">
+                    <p>Status das postagens</p>
+                    <canvas id="grafico-status-posts"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='footer'>
+        <p>Made with &lt;3 by <a href="https://linktr.ee/lucasquinalia" class="link-footer">Lucas Quinália</a></p>
+    </div>
 </body>
 
 </html>
 <script>
+    Chart.defaults.font.size = 18;
+
+    window.graficos = [];
+
+    function obterDados(id_grafico, url_api, rotulo, legenda, accent, muted, grid_color, tipo) {
+
+        const grafico = document.getElementById(id_grafico);
+        let rotulos = [];
+        let dados = [];
+        let media = 0;
+
+        fetch(`/posts/${url_api}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idUsuario: sessionStorage.ID_USUARIO
+            })
+        }).then(function (resposta) {
+            console.log(`ESTOU NO THEN DO obterDados() do endpoint ${url_api}!`);
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+
+                    if (json == null) {
+                        // tratar o gráfico sem dados
+                    } else {
+                        for (let i = 0; i < json.length; i++) {
+                            rotulos.push(json[i][rotulo]);
+                            dados.push(json[i].contagem);
+                            media += json[i].contagem;
+                        }
+                        media = Math.round(media / json.length);
+
+                        tipo == "barra" ?
+                            renderizarGraficoBarra(media, grafico, rotulos, dados, legenda, accent, muted, grid_color) :
+                            renderizarGraficoPizza(grafico, rotulos, dados, accent, muted);
+                    }
+
+                });
+
+            } else {
+                console.log(`Houve um erro ao obter os dados do endpoint ${url_api}!`);
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+    }
+
+    function renderizarGraficoPizza(grafico, rotulos, dados, accent, muted) {
+        const graph = new Chart(grafico, {
+            type: "pie",
+            data: {
+                labels: rotulos,
+                datasets: [
+                    {
+                        data: dados,
+                        borderWidth: 2,
+                        borderColor: accent,
+                        backgroundColor: muted
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                    }
+                }
+            }
+        });
+
+        window.graficos.push(graph);
+    }
+
+    function renderizarGraficoBarra(media, grafico, rotulos, dados, legenda, accent, muted, grid_color) {
+        const graph = new Chart(grafico, {
+            type: "bar",
+            data: {
+                labels: rotulos,
+                datasets: [
+                    {
+                        label: legenda,
+                        data: dados,
+                        borderWidth: 2,
+                        borderColor: accent,
+                        backgroundColor: muted
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    x: {
+                        grid: {
+                            color: grid_color
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: grid_color
+                        },
+                        ticks: {
+                            precision: 0,
+                            stepSize: 1
+                        },
+                        beginAtZero: true
+                    },
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                    },
+                    annotation: {
+                        annotations: {
+                            kpi: {
+                                type: "line",
+                                yMin: media,
+                                yMax: media,
+                                borderColor: "#B14A9B",
+                                borderWidth: 2,
+                                label: {
+                                    display: true,
+                                    content: `Média de posts: ${media}`,
+                                    backgroundColor: "transparent",
+                                    color: "#B14A9B",
+                                    position: "center",
+                                    yAdjust: -20
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        window.graficos.push(graph);
+    }
+
+    function obterCorCSS(variavel) {
+        return getComputedStyle(document.documentElement).getPropertyValue(variavel);
+    }
+
     window.onload = function () {
         const theme = sessionStorage.getItem('theme');
         const html = document.querySelector('html');
 
+        let accentGrafico1 = obterCorCSS('--accent');
+        let mutedGrafico1 = obterCorCSS('--muted');
+        let gridGrafico1 = obterCorCSS('--border');
+
+        let accentGrafico2 = [obterCorCSS('--accent-purple'), obterCorCSS('--accent-pink')];
+        let mutedGrafico2 = [obterCorCSS('--muted-purple'), obterCorCSS('--muted-pink')];
+
+        let accentGrafico3 = [obterCorCSS('--accent-blue'), obterCorCSS('--accent-green')];
+        let mutedGrafico3 = [obterCorCSS('--muted-blue'), obterCorCSS('--muted-green')];
+
         toggleTheme(theme);
         validarSessao();
+        obterDados("grafico-posts-por-dia", "meuspostspordia", "data", "Quantidade de posts", accentGrafico1, mutedGrafico1, gridGrafico1, "barra");
+        obterDados("grafico-visibilidade-posts", "visibilidademeusposts", "visibilidade", null, accentGrafico2, mutedGrafico2, null, "pizza");
+        obterDados("grafico-status-posts", "statusmeusposts", "status_postagem", null, accentGrafico3, mutedGrafico3, null, "pizza");
     };
 </script>

@@ -9,9 +9,14 @@
 
     --yellow: #D8923A;
 
+    --accent-purple: #713F88;
+    --muted-purple: #F2DFFD;
+    --accent-pink: #B14A9B;
+    --muted-pink: #FEE7F1;
+    --accent-blue: #497EA0;
+    --muted-blue: #DDF0FE;
     --accent-red: #C14949;
     --muted-red: #FFE0E0;
-
     --accent-green: #41A159;
     --muted-green: #DFF9DE;
 
@@ -32,9 +37,14 @@
 
     --yellow: #D8923A;
 
+    --accent-purple: #F2DFFD;
+    --muted-purple: #713F88;
+    --accent-pink: #FEE7F1;
+    --muted-pink: #B14A9B;
+    --accent-blue: #DDF0FE;
+    --muted-blue: #497EA0;
     --accent-red: #FFE0E0;
     --muted-red: #C14949;
-
     --accent-green: #DFF9DE;
     --muted-green: #41A159;
 
@@ -478,4 +488,29 @@ nav {
     text-align: center;
     margin: 100px 0 200px 0;
     color: var(--light_text);
+}
+
+.dashboard {
+    width: 1200px;
+    margin-bottom: 100px;
+}
+
+.card-posts-por-dia {
+    width: 100%;
+}
+
+.card-posts-por-dia p, .cards-graficos-pizza div p {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+.cards-graficos-pizza {
+    display: flex;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.cards-graficos-pizza div {
+    width: 100%;
 }
