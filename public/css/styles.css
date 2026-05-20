@@ -119,6 +119,35 @@ header {
     padding: 10px;
 }
 
+.navbar {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.navbar button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    background-color: var(--muted-red);
+    color: var(--accent-red);
+    cursor: pointer;
+}
+
+.navbar button:hover {
+    background-color: var(--accent-red);
+    color: var(--muted-red);
+}
+
+.navbar button svg {
+    width: 40px;
+    height: 40px;
+}
+
 nav {
     display: flex;
     gap: 5px;
@@ -431,6 +460,11 @@ nav {
 .meus-posts-header {
     display: flex;
     align-items: center;
+    margin: 50px 0;
+}
+
+.meus-posts-header h1 {
+    margin: 0;
 }
 
 .meus-posts-header button {
@@ -490,9 +524,14 @@ nav {
     color: var(--light_text);
 }
 
-.dashboard {
+#dashboard {
     width: 1200px;
     margin-bottom: 100px;
+}
+
+#dashboard .sem-posts {
+    width: 100%;
+    justify-content: space-between;
 }
 
 .card-posts-por-dia {
@@ -513,4 +552,28 @@ nav {
 
 .cards-graficos-pizza div {
     width: 100%;
+}
+
+.dashboard-vazio button {
+    display: flex;
+    margin: 0 auto;
+    border: none;
+    background-color: var(--muted);
+    margin-top: 20px;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 32px;
+    gap: 10px;
+}
+
+.dashboard-vazio button svg {
+    width: 40px;
+    height: 40px;
+}
+
+.dashboard-vazio button:hover {
+    color: var(--muted);
+    background-color: var(--accent);
 }
