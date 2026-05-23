@@ -577,3 +577,7 @@ nav {
     color: var(--muted);
     background-color: var(--accent);
 }
+
+.postagem {
+  width: 1200px;
+}

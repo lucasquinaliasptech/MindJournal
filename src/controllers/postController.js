@@ -193,11 +193,41 @@ function statusMeusPosts(req, res) {
         );
 }
 
+function buscarPostagemPorID(req, res) {
+    var id_postagem = req.body.idPost;
+
+    if (id_postagem == undefined) {
+        res.status(400).send("O ID do usuário está indefinido!");
+    }
+
+    postModel.buscarPostagemPorID(id_postagem)
+        .then(
+            function (resultado) {
+                console.log(`\nResultados encontrados: ${resultado.length}`);
+                console.log(`Resultados: ${JSON.stringify(resultado)}`);
+
+                if (resultado.length > 0) {
+                    console.log(resultado);
+                    res.json(resultado);
+                } else {
+                    res.json(null);
+                }
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao recuperar o status dos posts do usuário! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
 module.exports = {
     mostrarTodos,
     novoPost,
     meusPosts,
     meusPostsPorDia,
     visibilidadeMeusPosts,
-    statusMeusPosts
+    statusMeusPosts,
+    buscarPostagemPorID
 }

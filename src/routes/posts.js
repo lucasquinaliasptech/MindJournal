@@ -27,4 +27,8 @@ router.post("/statusmeusposts", function (req, res) {
     postController.statusMeusPosts(req, res);
 })
 
+router.post("/postagem", function (req, res) {
+    postController.buscarPostagemPorID(req, res);
+})
+
 module.exports = router;
