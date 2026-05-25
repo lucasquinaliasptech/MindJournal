@@ -197,7 +197,7 @@ function buscarPostagemPorID(req, res) {
     var id_postagem = req.body.idPost;
 
     if (id_postagem == undefined) {
-        res.status(400).send("O ID do usuário está indefinido!");
+        res.status(400).send("O ID da postagem está indefinido!");
     }
 
     postModel.buscarPostagemPorID(id_postagem)
@@ -216,7 +216,7 @@ function buscarPostagemPorID(req, res) {
         ).catch(
             function (erro) {
                 console.log(erro);
-                console.log("\nHouve um erro ao recuperar o status dos posts do usuário! Erro: ", erro.sqlMessage);
+                console.log("\nHouve um erro ao recuperar a postagem pelo id informado! Erro: ", erro.sqlMessage);
                 res.status(500).json(erro.sqlMessage);
             }
         );

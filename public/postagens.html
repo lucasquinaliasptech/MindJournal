@@ -74,7 +74,8 @@
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path d="M16 17L21 12L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round" />
-                <path d="M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
             </svg>
         </button>
     </div>
@@ -137,73 +138,131 @@
         sessionStorage.ID_POST = id_post;
     }
 
-    function mostrarPosts() {
-        fetch("/posts/todos", {
-            method: "GET"
-        }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO mostrarPosts()!")
+    async function mostrarPosts() {
+        try {
+            console.log("Iniciando busca de postagens...");
+            const resposta = await fetch("/posts/todos", { method: "GET" });
 
             if (resposta.ok) {
-                console.log(resposta);
+                const json = await resposta.json();
+                console.log("Postagens recebidas:", json);
 
-                resposta.json().then(json => {
-                    console.log(json);
-                    console.log(JSON.stringify(json));
+                const postsContainer = document.getElementById('div-posts');
+                let htmlGerado = ``; // Acumulador para renderizar tudo de uma vez só
 
-                    posts = document.getElementById('div-posts');
+                for (let i = 0; i < json.length; i++) {
+                    // Agora o loop espera a resposta do banco antes de avançar para o próximo post
+                    let curtido = await buscarCurtidaPorPost(json[i].id, sessionStorage.ID_USUARIO);
 
-                    posts.innerHTML = ``;
+                    let fill = "none";
+                    if (curtido == 1) {
+                        fill = "#D8923A"; // Cor amarela preenchida
+                    }
 
-                    for (let i = 0; i < json.length; i++) {
-                        posts.innerHTML += `
-                            <div class="card card-post">
-                                <div class="post-header">
-                                    <h2>${json[i].titulo}</h2>
-                                    <div>
-                                        <p>Por ${json[i].autor} (@${json[i].apelido})</p>
-                                        <p>${json[i].data}</p>
-                                    </div>
-                                </div>
-                                <p>${json[i].conteudo}</p>
-                                <div class="post-footer">
-                                    <a href="#" onclick="acessarPost(${json[i].id}); return false;" class="yellow">Ler mais...</a>
-                                    <div>
-                                        <button class="like-comment-button">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg" class="yellow">
-                                                <path
-                                                    d="M20.84 4.61C20.3292 4.09901 19.7228 3.69365 19.0554 3.41709C18.3879 3.14052 17.6725 2.99818 16.95 2.99818C16.2275 2.99818 15.5121 3.14052 14.8446 3.41709C14.1772 3.69365 13.5708 4.09901 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.57831 8.50903 2.99871 7.05 2.99871C5.59096 2.99871 4.19169 3.57831 3.16 4.61C2.1283 5.64169 1.54871 7.04097 1.54871 8.5C1.54871 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7563 11.2728 22.0329 10.6054C22.3095 9.9379 22.4518 9.22249 22.4518 8.5C22.4518 7.77751 22.3095 7.06211 22.0329 6.39465C21.7563 5.72719 21.351 5.12076 20.84 4.61Z"
-                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                            </svg>
-                                        </button>
-                                        <button class="like-comment-button">
-                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg" class="yellow">
-                                                <path
-                                                    d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7117 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0034 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92176 4.44061 8.37485 5.27072 7.03255C6.10083 5.69025 7.28825 4.60557 8.7 3.9C9.87812 3.30493 11.1801 2.99656 12.5 3H13C15.0843 3.11499 17.053 3.99476 18.5291 5.47086C20.0052 6.94695 20.885 8.91565 21 11V11.5Z"
-                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                            </svg>
-                                        </button>
-                                    </div>
+                    htmlGerado += `
+                        <div class="card card-post">
+                            <div class="post-header">
+                                <h2>${json[i].titulo}</h2>
+                                <div>
+                                    <p>Por ${json[i].autor} (@${json[i].apelido})</p>
+                                    <p>${json[i].data}</p>
                                 </div>
                             </div>
-                        `
-                    }
-                });
+                            <p>${json[i].conteudo}</p>
+                            <div class="post-footer">
+                                <a href="#" onclick="acessarPost(${json[i].id}); return false;" class="yellow">Ler mais...</a>
+                                <div>
+                                    <button class="like-comment-button" onclick="curtirPost(${json[i].id},${sessionStorage.ID_USUARIO},${i})">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="${fill}"
+                                            xmlns="http://www.w3.org/2000/svg" class="yellow" id="${i}">
+                                            <path
+                                                d="M20.84 4.61C20.3292 4.09901 19.7228 3.69365 19.0554 3.41709C18.3879 3.14052 17.6725 2.99818 16.95 2.99818C16.2275 2.99818 15.5121 3.14052 14.8446 3.41709C14.1772 3.69365 13.5708 4.09901 13.06 4.61L12 5.67L10.94 4.61C9.9083 3.57831 8.50903 2.99871 7.05 2.99871C5.59096 2.99871 4.19169 3.57831 3.16 4.61C2.1283 5.64169 1.54871 7.04097 1.54871 8.5C1.54871 9.95903 2.1283 11.3583 3.16 12.39L4.22 13.45L12 21.23L19.78 13.45L20.84 12.39C21.351 11.8792 21.7563 11.2728 22.0329 10.6054C22.3095 9.9379 22.4518 9.22249 22.4518 8.5C22.4518 7.77751 22.3095 7.06211 22.0329 6.39465C21.7563 5.72719 21.351 5.12076 20.84 4.61Z"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                    </button>
+                                    <button class="like-comment-button">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" class="yellow">
+                                            <path
+                                                d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7117 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0034 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92176 4.44061 8.37485 5.27072 7.03255C6.10083 5.69025 7.28825 4.60557 8.7 3.9C9.87812 3.30493 11.1801 2.99656 12.5 3H13C15.0843 3.11499 17.053 3.99476 18.5291 5.47086C20.0052 6.94695 20.885 8.91565 21 11V11.5Z"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Aplica todo o HTML gerado na div de uma vez só
+                postsContainer.innerHTML = htmlGerado;
 
             } else {
                 console.log("Houve um erro ao recuperar todos os posts!");
-
-                resposta.text().then(texto => {
-                    console.error(texto);
-                });
+                const texto = await resposta.text();
+                console.error(texto);
             }
 
+        } catch (erro) {
+            console.error("Erro na função mostrarPosts:", erro);
+        }
+    }
+
+    function curtirPost(id_postagem, id_usuario, id) {
+        fetch("/curtidas/curtirpost", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                idPost: id_postagem,
+                idUsuario: id_usuario,
+            }),
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                let curtida = document.getElementById(`${id}`);
+                curtida.style.fill = "#D8923A"; // Define a cor fixa diretamente
+            } else {
+                console.log("Houve um erro ao curtir a postagem!");
+            }
         }).catch(function (erro) {
             console.log(erro);
-        })
+        });
+    }
+
+    // Convertida para async/await real e corrigido o return
+    async function buscarCurtidaPorPost(id_postagem, id_usuario) {
+        try {
+            const resposta = await fetch("/curtidas/buscarcurtidapost", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    idPost: id_postagem,
+                    idUsuario: id_usuario,
+                }),
+            });
+
+            if (resposta.ok) {
+                const json = await resposta.json();
+
+                // Valida se o json veio preenchido antes de acessar o índice 0
+                if (json && json.length > 0) {
+                    console.log(`STATUS DO POST ${id_postagem}: ${json[0].status}`);
+                    return json[0].status; // Agora o valor sai corretamente da função!
+                }
+                return 0;
+            } else {
+                console.log("Houve um erro ao recuperar os likes da postagem!");
+                return 0;
+            }
+        } catch (erro) {
+            console.error("Erro na busca de curtida:", erro);
+            return 0;
+        }
     }
 
     window.onload = function () {
