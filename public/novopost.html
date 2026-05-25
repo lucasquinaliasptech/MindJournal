@@ -124,7 +124,7 @@
         <h1 class="page-title">Novo post</h1>
         <div class="novo-post">
             <div class="novo-post-header">
-                <input type="text" id="ipt_titulo" class="card novo-post-titulo">
+                <input type="text" id="ipt_titulo" class="card novo-post-titulo" placeholder="Título do post">
                 <div>
                     <p>Em rascunho</p>
                     <button onclick="mudarVisibilidade()" id="visibilidade" class="novo-post-visibilidade">
@@ -139,7 +139,7 @@
                     </button>
                 </div>
             </div>
-            <textarea id="ipt_conteudo" class="card novo-post-conteudo"
+            <textarea id="ipt_conteudo" class="card novo-post-conteudo" placeholder="Conteúdo do post"
                 oninput='this.style.height = ""; this.style.height = this.scrollHeight + "px"'></textarea>
             <div class="novo-post-buttons">
                 <button onclick="novoPost()" id="salvar" class="novo-post-salvar">
