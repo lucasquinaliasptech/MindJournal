@@ -140,26 +140,25 @@
 
     async function mostrarPosts() {
         try {
-            console.log("Iniciando busca de postagens...");
-            const resposta = await fetch("/posts/todos", { method: "GET" });
+            let resposta = await fetch("/posts/todos", { method: "GET" });
 
             if (resposta.ok) {
-                const json = await resposta.json();
+                let json = await resposta.json();
                 console.log("Postagens recebidas:", json);
 
-                const postsContainer = document.getElementById('div-posts');
-                let htmlGerado = ``; // Acumulador para renderizar tudo de uma vez só
+                let  posts = document.getElementById('div-posts');
+
+                posts.innerHTML = ``;
 
                 for (let i = 0; i < json.length; i++) {
-                    // Agora o loop espera a resposta do banco antes de avançar para o próximo post
                     let curtido = await buscarCurtidaPorPost(json[i].id, sessionStorage.ID_USUARIO);
 
                     let fill = "none";
                     if (curtido == 1) {
-                        fill = "#D8923A"; // Cor amarela preenchida
+                        fill = "#D8923A";
                     }
 
-                    htmlGerado += `
+                    posts.innerHTML += `
                         <div class="card card-post">
                             <div class="post-header">
                                 <h2>${json[i].titulo}</h2>
@@ -172,7 +171,7 @@
                             <div class="post-footer">
                                 <a href="#" onclick="acessarPost(${json[i].id}); return false;" class="yellow">Ler mais...</a>
                                 <div>
-                                    <button class="like-comment-button" onclick="curtirPost(${json[i].id},${sessionStorage.ID_USUARIO},${i})">
+                                    <button class="like-comment-button" onclick="validarCurtida(${json[i].id},${sessionStorage.ID_USUARIO},${i})">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="${fill}"
                                             xmlns="http://www.w3.org/2000/svg" class="yellow" id="${i}">
                                             <path
@@ -195,13 +194,9 @@
                         </div>
                     `;
                 }
-
-                // Aplica todo o HTML gerado na div de uma vez só
-                postsContainer.innerHTML = htmlGerado;
-
             } else {
                 console.log("Houve um erro ao recuperar todos os posts!");
-                const texto = await resposta.text();
+                let texto = await resposta.text();
                 console.error(texto);
             }
 
@@ -210,7 +205,27 @@
         }
     }
 
+    async function validarCurtida(id_postagem, id_usuario, id) {
+        if (!sessionStorage.ID_USUARIO) {
+            window.location = "cadastro.html";
+            return;
+        }
+
+        try {
+            let curtido = await buscarCurtidaPorPost(id_postagem, id_usuario);
+
+            if (curtido == 1) {
+                descurtirPost(id_postagem, id_usuario, id);
+            } else {
+                curtirPost(id_postagem, id_usuario, id);
+            }
+        } catch (error) {
+            console.error("Erro na função validarCurtida:", erro);
+        }
+    }
+
     function curtirPost(id_postagem, id_usuario, id) {
+
         fetch("/curtidas/curtirpost", {
             method: "POST",
             headers: {
@@ -223,7 +238,7 @@
         }).then(function (resposta) {
             if (resposta.ok) {
                 let curtida = document.getElementById(`${id}`);
-                curtida.style.fill = "#D8923A"; // Define a cor fixa diretamente
+                curtida.style.fill = "#D8923A";
             } else {
                 console.log("Houve um erro ao curtir a postagem!");
             }
@@ -232,42 +247,70 @@
         });
     }
 
-    // Convertida para async/await real e corrigido o return
-    async function buscarCurtidaPorPost(id_postagem, id_usuario) {
-        try {
-            const resposta = await fetch("/curtidas/buscarcurtidapost", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    idPost: id_postagem,
-                    idUsuario: id_usuario,
-                }),
-            });
+    function descurtirPost(id_postagem, id_usuario, id) {
 
+        fetch("/curtidas/descurtirpost", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                idPost: id_postagem,
+                idUsuario: id_usuario,
+            }),
+        }).then(function (resposta) {
             if (resposta.ok) {
-                const json = await resposta.json();
-
-                // Valida se o json veio preenchido antes de acessar o índice 0
-                if (json && json.length > 0) {
-                    console.log(`STATUS DO POST ${id_postagem}: ${json[0].status}`);
-                    return json[0].status; // Agora o valor sai corretamente da função!
-                }
-                return 0;
+                let curtida = document.getElementById(`${id}`);
+                curtida.style.fill = "none";
             } else {
-                console.log("Houve um erro ao recuperar os likes da postagem!");
+                console.log("Houve um erro ao descurtir a postagem!");
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+        });
+    }
+
+    async function buscarCurtidaPorPost(id_postagem, id_usuario) {
+
+        if (sessionStorage.ID_USUARIO) {
+            try {
+                let resposta = await fetch("/curtidas/buscarcurtidapost", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        idPost: id_postagem,
+                        idUsuario: id_usuario,
+                    }),
+                });
+    
+                if (resposta.ok) {
+                    let json = await resposta.json();
+    
+                    if (json && json.length > 0) {
+                        console.log(`STATUS DO POST ${id_postagem}: ${json[0].status}`);
+                        return json[0].status;
+                    }
+                    return 0;
+                } else {
+                    console.log("Houve um erro ao recuperar as curtidas da postagem!");
+                    return 0;
+                }
+            } catch (erro) {
+                console.error("Erro na busca de curtida:", erro);
                 return 0;
             }
-        } catch (erro) {
-            console.error("Erro na busca de curtida:", erro);
-            return 0;
         }
+
+        return 0;
     }
 
     window.onload = function () {
         const theme = sessionStorage.getItem('theme');
         const html = document.querySelector('html');
+
+        sessionStorage.ID_POST = null;
 
         toggleTheme(theme);
         validarSessao();

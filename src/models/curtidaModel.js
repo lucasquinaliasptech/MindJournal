@@ -16,7 +16,16 @@ function buscarCurtidaPorPost(id_postagem, id_usuario) {
     return database.executar(instrucaoSql);
 }
 
+function descurtirPost(id_postagem, id_usuario) {
+    console.log("ACESSEI O CURTIDA MODEL \n \n function descurtirPost():", id_postagem, id_usuario);
+    var instrucaoSql = `DELETE FROM curtida WHERE id_postagem = ${id_postagem} AND id_usuario = ${id_usuario};`;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     curtirPost,
-    buscarCurtidaPorPost
+    buscarCurtidaPorPost,
+    descurtirPost
 };

@@ -22,7 +22,7 @@ function curtirPost(req, res) {
         ).catch(
             function (erro) {
                 console.log(erro);
-                console.log("\nHouve um erro ao recuperar o status dos posts do usuário! Erro: ", erro.sqlMessage);
+                console.log("\nHouve um erro ao curtir o post! Erro: ", erro.sqlMessage);
                 res.status(500).json(erro.sqlMessage);
             }
         );
@@ -50,7 +50,35 @@ function buscarCurtidaPorPost(req, res) {
         ).catch(
             function (erro) {
                 console.log(erro);
-                console.log("\nHouve um erro ao recuperar o status dos posts do usuário! Erro: ", erro.sqlMessage);
+                console.log("\nHouve um erro ao recuperar a curtida do post! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function descurtirPost(req, res) {
+    var id_postagem = req.body.idPost;
+    var id_usuario = req.body.idUsuario;
+
+    if (id_postagem == undefined) {
+        res.status(400).send("O ID da postagem está indefinido!");
+    } else if (id_usuario == undefined) {
+        res.status(400).send("O ID do usuário está indefinido!");
+    }
+
+    curtidaModel.descurtirPost(id_postagem, id_usuario)
+        .then(
+            function (resultado) {
+                console.log(`\nResultados encontrados: ${resultado.length}`);
+                console.log(`Resultados: ${JSON.stringify(resultado)}`);
+
+                console.log(resultado);
+                res.json(resultado);
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao descurtir o post! Erro: ", erro.sqlMessage);
                 res.status(500).json(erro.sqlMessage);
             }
         );
@@ -58,5 +86,6 @@ function buscarCurtidaPorPost(req, res) {
 
 module.exports = {
     curtirPost,
-    buscarCurtidaPorPost
+    buscarCurtidaPorPost,
+    descurtirPost
 }
